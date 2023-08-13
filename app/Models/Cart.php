@@ -12,7 +12,7 @@ class Cart extends Model
 	      return $this->belongsTo(User::class);
 	}
 
-	public function transection() 
+    public function transaksi() 
 	{
 	     return $this->hasMany(Transection::class);
 	}

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Category;
 
@@ -14,11 +14,12 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $data ['title'] = 'Category';
-        $data['category'] = Category::all();
-
-        return view('dashbord.pages.category', $data);
+        return view('backend.pages.pengelola.category',[
+            'categorys' => DB::table('categories')->paginate(10),
+            'title' => 'Category',
+       ]);  
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -27,9 +28,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $data ['title'] = 'Tambah Data Category';
-
-        return view('dashbord.pages.category_add', $data);
+        return view('backend.pages.pengelola.category_add');
     }
 
     /**
@@ -41,11 +40,12 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'category_name' => 'required'
+
+            'name' => 'required'
         ]);
 
         Category::create([
-            'name' => $validated['category_name']
+            'name' => $validated['name']
         ]);
 
         return redirect('/category');
@@ -59,7 +59,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        
+        //
     }
 
     /**
@@ -70,10 +70,10 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $data ['title'] = 'Edit Produk';
-        $data['category'] = Category::find($id);
-
-        return view('dashbord.pages.category_edit', $data);
+            return view("backend.pages.pengelola.category_edit",[
+                'title' => 'Pengelola - Edit category',
+                'item' => Category::find($id),
+            ]);
     }
 
     /**
@@ -86,10 +86,12 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
+           
             'category_name' => 'required'
         ]);
 
         Category::where('id', $id)->update([
+            
             'name' => $validated['category_name']
         ]);
 
@@ -102,11 +104,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
-    {   
+    public function destroy($id)
+    {
         Category::destroy($id);
-
-        return redirect('/category');
-        
+        return redirect('/category')->with(['success' => 'Data Berhasil Dihapus!']);
     }
 }

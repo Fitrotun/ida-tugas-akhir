@@ -1,68 +1,81 @@
-<nav class="navbar navbar-expand-lg ">
-  <div class="container">
-    <a class="navbar-brand" href="#"><img src="{{ asset('assets/image/logo.png') }}" width="70" ></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-5 mb-lg-0">
-        @guest
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{{ url('/') }}">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{{ url('/login') }}">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{{ url('/register') }}">Register</a>
-          </li>
-        @endguest
-        @auth
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{{ url('/') }}">Home</a>
-          </li>
-          <li class="nav-item">
-            <?php
-              $cart_utama = \App\Models\Cart::where('user_id', Auth::user()->id)->where('status',0)->first();
-              if(!empty($cart_utama))
-              {
-                $notif = \App\Models\Transaction::where('cart_id', $cart_utama->id)->count(); 
-              }
-            ?>
-            <a class="nav-link" href="{{ url('check-out') }}">
-                <i class="fa fa-shopping-cart"></i>
-                @if(!empty($notif))
-                  <span class="badge badge-danger">{{ $notif }}</span>
-                @endif
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark p-md-3">
+    <div class="container-fluid mx-lg-5">
+        <img src="{{ asset('assets/frontend/css/images/RawalaText.png') }}" alt="Logo" width="100" class="d-inline-block align-text-top" href="#">
+      {{-- <a class="navbar-brand" href="#"></a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"> --}}
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a href="{{ url('/') }}" class="nav-link text-white {{ request()->is('/') ? ' active-link' : '' }}">
+                  <span>Home</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="/infoBerita">Berita</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="/lwisata">Wisata</a>
+            </li>
+            <li class="nav-item" {{ session('isLogin')?"style=display:none":"" }}>
+              <a class="nav-link text-white" href="/login">Login</a>
+            </li>
+            <li class="nav-item" {{ session('isLogin')?"style=display:none":"" }}>
+              <a class="nav-link text-white" href="/register">Register</a>
+            </li>
+          <li class="nav-item dropdown" {{ session('isLogin')?"":"style=display:none" }}>
+            <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Welcome, {{ session('name') }}
             </a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Welcome, {{ auth()->user()->name }}
-            </a>
-            @if (auth()->user()->level=="admin")
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="{{ url('/logout') }}">Logout</a></li>
-                <li><a class="dropdown-item" href="{{ url('/category') }}">Category</a></li>
-                <li><a class="dropdown-item" href="{{ url('/product') }}">Product</a></li>
-                <li><a class="dropdown-item" href="{{ url('/cart') }}">Cart</a></li>
-                <li><a class="dropdown-item" href="{{ url('/transaksi') }}">Transaksi</a></li>
-                {{-- <li><hr class="dropdown-divider"></li> --}}
-              </ul>
+            @if ( session('role')== "user" ? "" : "style=display:none" )
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/dashboard">Dashbord</a></li>
+              <li><a class="dropdown-item" href="/logout">Logout</a></li>
+            </ul>
             @else
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="{{ url('/logout') }}">Logout</a></li>
-                <li><a class="dropdown-item" href="{{ url('/profile') }}">Profil</a></li>
-                <li><a class="dropdown-item" href="{{ url('/history') }}">Riwayat Pesanan</a></li>
-              </ul>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li>
+                <?php
+                  $cart_utama = \App\Models\Cart::where('user_id', session('id'))->where('status',0)->first();
+                  if(!empty($cart_utama))
+                  {
+                    $notif = \App\Models\Transaksi::where('cart_id', $cart_utama->id)->count();
+                  }
+                ?>
+                <a class="dropdown-item" href="{{ url('check-out') }}">
+                    Keranjang
+                    @if(!empty($notif))
+                      <span class="badge badge-danger">{{ $notif }}</span>
+                    @endif
+                </a>
+              </li>
+              <li><a class="dropdown-item" href="/profile">Profile</a></li>
+              <li><a class="dropdown-item" href="/history">Riwayat</a></li>
+              <li><a class="dropdown-item" href="/logout">Logout</a></li>
+            </ul>
             @endif
           </li>
-        @endauth
-      </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit"><i class="fa fa-search"></i></button>
-      </form>
+        </ul>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
+  <script type="text/javascript">
+    var nav = document.querySelector('nav');
+
+    window.addEventListener('scroll', function () {
+      if (window.pageYOffset > 100) {
+        nav.classList.add('shadow');
+      } else {
+        nav.classList.remove('shadow');
+      }
+    });
+  </script>
