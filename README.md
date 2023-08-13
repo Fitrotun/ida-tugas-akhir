@@ -15,7 +15,7 @@
 
 1. Clone Repo
 ``` 
-git clone https://github.com/Fitrotun/gi
+git clone https://github.com/Fitrotun/ida-tugas-akhir.git
 ```
 
 2. Copy env dari env.example
