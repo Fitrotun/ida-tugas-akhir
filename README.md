@@ -1,11 +1,7 @@
-# UTS Project | Website Online Shop | Group 15
+# APLIKASI E-TICKETING PARIWISATA DI WONOSOBO BERBASIS WEBSITE
 
-## Team
-- ``` Ananda Ayu Sekar Wiranti ```
-- ``` Danuarta Dwi Yuli Saputro ```
+## Disusun Oleh
 - ``` Ida Fitrotun Khasanah ```
-- ``` Irfan Afandi ```
-- ``` Meisya Delila Br Ginting ```
 
 ## Tools
 
@@ -19,7 +15,7 @@
 
 1. Clone Repo
 ``` 
-git clone https://github.com/ayusekar94/gits-msib4-uts
+git clone https://github.com/Fitrotun/gi
 ```
 
 2. Copy env dari env.example
