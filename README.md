@@ -1,15 +1,11 @@
-# APLIKASI E-TICKETING PARIWISATA DI WONOSOBO BERBASIS WEBSITE
-<<<<<<< HEAD
+# APLIKASI SPK REKOMENDASI WISATA DI KABUPATEN WONOSOBO BERBASIS WEBSITE
+
 
 ## Disusun Oleh
 
 - ``` Ida Fitrotun Khasanah ```
 
 =======
-
-## Disusun Oleh
-- ``` Ida Fitrotun Khasanah ```
->>>>>>> 2f1e699160d54e831882f923d62aa91a1f4d43a0
 
 ## Tools
 
