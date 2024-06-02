@@ -26,7 +26,7 @@ git clone https://github.com/Fitrotun/ida-tugas-akhir.git
 php artisan key:generate
 ```
 
-4. Mingrate tabel
+4. Migrate tabel
 ``` 
 php artisan migrate:fresh --seed
 ```
