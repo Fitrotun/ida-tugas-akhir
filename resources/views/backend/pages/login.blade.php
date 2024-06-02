@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title> RaTours </title>
+  <title> Wisata Wonosobo </title>
   @include('backend/include/head')
 </head>
 
@@ -17,7 +17,7 @@
           <div class="col-lg-4 mx-auto">
             <div class="auth-form-light text-left py-5 px-4 px-sm-5">
               <div class="brand-logo">
-                <center><img src="{{ asset('assets/images/logo.PNG')}}" style="width: 200px;" alt="logo"></center>
+                <center><img src="{{ asset('asset/img/logoo.png')}}" style="width: 200px;" alt="logo"></center>
               </div> 
               <h4>Hello! let's get started</h4>
               <h6 class="fw-light">Sign in to continue.</h6>
@@ -44,7 +44,6 @@
                   <label for="exampleFormControlSelect2">Select Role</label>
                   <select class="form-control" id="exampleFormControlSelect2" name="role">
                     <option value="admin">Admin</option>
-                    <option value="pengelola">Pengelola</option>
                     <option value="user">User</option>
                   </select>
                 </div>

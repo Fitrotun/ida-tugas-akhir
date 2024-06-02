@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
             WisataSeeder::class,
             AdminSeeder::class,
             BeritaSeeder::class,
-            PengelolaSeeder::class,
         ]);
     }
 }

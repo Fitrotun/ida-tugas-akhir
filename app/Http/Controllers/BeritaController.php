@@ -15,8 +15,8 @@ class BeritaController extends Controller
      */
     public function index()
     {
-        return view('backend.pages.pengelola.berita',[
-            'berita' => DB::table('beritas')->paginate(10),
+        return view('backend.pages.admin.berita',[
+            'berita' => DB::table('beritas')->paginate(5),
             'title' => 'Berita'
        ]); 
     }
@@ -27,11 +27,7 @@ class BeritaController extends Controller
      */
     public function create()
     {
-        // $data ['title'] = 'Tambah Berita Wisata';
-        // $data['berita'] = Berita::all();
-
-        // return view('backend.pages.pengelola.berita_add', $data);
-        return view('backend.pages.pengelola.berita_add');
+        return view('backend.pages.admin.berita_add');
     }
     /**
      * Store a newly created resource in storage.
@@ -60,7 +56,7 @@ class BeritaController extends Controller
         $berita->description= $request->description;
         $berita->save();
 
-        return redirect()->intended('/berita');
+        return redirect()->intended('/berita')->with(['toast_success' => 'Data Berhasil Tersimpan']);
     }
 
     /**
@@ -82,8 +78,8 @@ class BeritaController extends Controller
      */
     public function edit($id)
     {
-        return view("backend.pages.pengelola.berita_edit",[
-            'title' => 'Pengelola - Edit Wisata',
+        return view("backend.pages.admin.berita_edit",[
+            'title' => 'Admin - Edit Wisata',
             'item' => Berita::find($id),
         ]);
     }
@@ -118,7 +114,7 @@ class BeritaController extends Controller
         $berita->name= $request->name;
         $berita->description= $request->description;
         $berita->save();
-        return redirect('/berita');
+        return redirect('/berita')->with(['toast_success' => 'Data Berhasil Diupdate']);
     }
 
     /**
@@ -130,6 +126,6 @@ class BeritaController extends Controller
     public function destroy($id)
     {
         Berita::destroy($id);
-        return redirect("/berita")->with(['success' => 'Data Berhasil Dihapus!']);
+        return redirect("/berita")->with(['success' => 'Data Berhasil Dihapus']);
     }
 }

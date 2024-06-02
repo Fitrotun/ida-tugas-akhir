@@ -19,7 +19,7 @@ class AuthSeeder extends Seeder
         $faker = Faker::create('id_ID');
         DB::table('admins')->insert(
             [ // ADMIN
-            'name' => 'Ananda Ayu Sekar',
+            'name' => 'Ida Fitrotun Khasanah',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('12345'),
             'alamat' => $faker->address,
@@ -29,21 +29,9 @@ class AuthSeeder extends Seeder
             'updated_at' => date('Y-m-d H:i:s')
             ]
         );
-        DB::table('pengelolas')->insert(
-            [ // PENGELOLA
-            'name' => 'Ida Fitrotun Khasanah',
-            'email' => 'pengelola@gmail.com',
-            'password' => bcrypt('123456'),
-            'alamat' => $faker->address,
-            'noHp' => '081276535467',
-            'jenisKelamin' => 0,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s')
-            ],
-        );
         DB::table('users')->insert(
             [ // USER
-            'name' => 'Nanda Setiawan',
+            'name' => 'Muhammad Farkhan',
             'email' => 'user@gmail.com',
             'password' => bcrypt('56789'),
             'alamat' => $faker->address,

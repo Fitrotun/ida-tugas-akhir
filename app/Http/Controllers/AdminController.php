@@ -9,14 +9,14 @@ use App\Models\Transaksi;
 
 class AdminController extends Controller
 {
-    public function __construct(){
-        return $this->middleware('admin') && $this->middleware('login');
-    }
+    // public function __construct(){
+    //     return $this->middleware('admin') && $this->middleware('login');
+    // }
     
     // DASHBOARD
     public function index(){
         return view('backend.pages.admin.admin',[
-             'item' => DB::table('admins')->paginate(10),
+             'item' => DB::table('admins')->paginate(5),
              'title' => 'Admin'
         ]);
          
@@ -87,12 +87,5 @@ class AdminController extends Controller
          return redirect("/admin"); // untuk diarahkan kemana
      } 
      
-    // dashbord list transaksi - role admin
-    public function transaksi()
-    {
-		$data ['title'] = 'Cart';
-        $data['transaksi'] = Transaksi::with('cart', 'wisata')->get();
-
-    	return view('backend.pages.admin.listTransaksi', $data);
-    }
+   
 }

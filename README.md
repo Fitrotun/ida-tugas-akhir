@@ -1,11 +1,9 @@
-# UTS Project | Website Online Shop | Group 15
+# APLIKASI E-TICKETING PARIWISATA DI WONOSOBO BERBASIS WEBSITE
 
-## Team
-- ``` Ananda Ayu Sekar Wiranti ```
-- ``` Danuarta Dwi Yuli Saputro ```
+## Disusun Oleh
+
 - ``` Ida Fitrotun Khasanah ```
-- ``` Irfan Afandi ```
-- ``` Meisya Delila Br Ginting ```
+
 
 ## Tools
 

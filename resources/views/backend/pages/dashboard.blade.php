@@ -25,18 +25,7 @@
                     <li class="nav-item">
                       <a class="nav-link">Dashboard</a>
                     </li>
-                    <!-- <li class="nav-item">
-                      <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#pasien" role="tab" aria-selected="false">Pasien</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#pengguna" role="tab" aria-selected="false">Pengguna</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#obat" role="tab" aria-selected="false">Obat</a>
-                    </li>
-                    <li class="nav-item" style="display: none">
-                      <a class="nav-link" id="more-tab" data-bs-toggle="tab" href="#transaksi" role="tab" aria-selected="false">Transaksi</a>
-                    </li>  -->
+                    
                   </ul>
                   <div>
                     <div class="btn-wrapper no-print">
@@ -56,10 +45,6 @@
                             {{-- <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>Orang</span></p> --}}
                           </div>
                           <div>
-                            <p class="statistics-title">Pengelola</p>
-                            <h3 class="rate-percentage">{{ $jml_pengelola }}</h3>
-                          </div>
-                          <div>
                             <p class="statistics-title">User</p>
                             <h3 class="rate-percentage">{{ $jml_user }}</h3>
                           </div>
@@ -75,14 +60,10 @@
                             <p class="statistics-title">Berita</p>
                             <h3 class="rate-percentage">{{ $jml_berita }}</h3>
                           </div>
-                          <div>
-                            <p class="statistics-title">Promosi</p>
-                            <h3 class="rate-percentage">{{ $jml_promosi }}</h3>
-                          </div>
-                          <div class="d-none d-md-block">
-                            <p class="statistics-title">Transaksi</p>
-                            <h3 class="rate-percentage">{{ $jml_transaksi }}</h3>
-                          </div>
+                          {{-- <div>
+                            <p class="statistics-title">Kriteria</p>
+                            <h3 class="rate-percentage">{{ $jml_kriteria }}</h3>
+                          </div> --}}
                         </div>
                       </div>
                     </div> 

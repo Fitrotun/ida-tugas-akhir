@@ -8,7 +8,7 @@
         <p class="card-description">
           <a href="/user/create" class="btn btn-primary float-end btn-sm" style="margin-right: 10px">+ Tambah</a><br>
         </p>
-        
+        <br>
         <div class="table-responsive">
           <table class="table table-hover">
             <thead>
@@ -58,6 +58,9 @@
               @endforeach
             </tbody>
           </table>
+          <br>
+          <div class="d-flex justify-content-start">
+          {{ $item->links() }}
         </div>
       </div>
     </div>

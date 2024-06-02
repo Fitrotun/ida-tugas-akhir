@@ -14,7 +14,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('backend.pages.pengelola.category',[
+        return view('backend.pages.admin.category',[
             'categorys' => DB::table('categories')->paginate(10),
             'title' => 'Category',
        ]);  
@@ -28,7 +28,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('backend.pages.pengelola.category_add');
+        return view('backend.pages.admin.category_add');
     }
 
     /**
@@ -48,7 +48,7 @@ class CategoryController extends Controller
             'name' => $validated['name']
         ]);
 
-        return redirect('/category');
+        return redirect('/category')->with(['toast_success' => 'Data Berhasil Tersimpan']);
     }
 
     /**
@@ -70,8 +70,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-            return view("backend.pages.pengelola.category_edit",[
-                'title' => 'Pengelola - Edit category',
+            return view("backend.pages.admin.category_edit",[
+                'title' => 'Admin - Edit category',
                 'item' => Category::find($id),
             ]);
     }
@@ -95,7 +95,7 @@ class CategoryController extends Controller
             'name' => $validated['category_name']
         ]);
 
-        return redirect('/category');
+        return redirect('/category')->with(['toast_success' => 'Data Berhasil Diupdate']);
     }
 
     /**
@@ -107,6 +107,6 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         Category::destroy($id);
-        return redirect('/category')->with(['success' => 'Data Berhasil Dihapus!']);
+        return redirect('/category')->with(['success' => 'Data Berhasil Dihapus']);
     }
 }

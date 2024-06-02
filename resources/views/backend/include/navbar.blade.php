@@ -7,10 +7,7 @@
       </div>
       <div>
         <a class="navbar-brand brand-logo" href="index.html">
-          <img src="{{ asset('assets/images/Rawala.PNG')}}" alt="logo" /> RaTours
-        </a>
-        <a class="navbar-brand brand-logo-mini" href="index.html">
-          <img src="{{ asset('assets/images/logo.svg')}}" alt="logo" />
+          <img src="{{ asset('asset/img/logoo.png')}}" alt="logo" /> Wisata
         </a>
       </div>
     </div>
@@ -29,10 +26,11 @@
         </li>
         <li class="nav-item dropdown d-none d-lg-block user-dropdown">
           <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-            <img class="img-xs rounded-circle" src="{{ asset('assets/images/auth')}}{{ (session('jenisKelamin')==0)?'/man.png':'/woman.png'}}" alt="Profile image"> </a>
-          <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
+            <img class="img-xs rounded-circle" src="{{ asset('asset/img')}}{{ (session('jenisKelamin')==1)?'/face2.jpg':'/woman.png'}}"  ></a>
+
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
             <div class="dropdown-header text-center">
-              <img class="img-md rounded-circle" src="{{ asset('assets/images/auth')}}{{ (session('jenisKelamin')==0)?'/man.png':'/woman.png'}}" alt="Profile image">
+              <img class="img-md rounded-circle" src="{{ asset('asset/img')}}{{ (session('jenisKelamin')==1)?'/face2.jpg':'/woman.png'}}" >
               <p class="mb-1 mt-3 font-weight-semibold">{{ session('name') }}</p>
               <p class="fw-light text-muted mb-0">{{ session('email') }} - {{ session('role') }}</p>
             </div>

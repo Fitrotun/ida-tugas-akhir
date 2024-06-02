@@ -9,60 +9,20 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Signika+Negative:wght@600&display=swap" rel="stylesheet">
 
-<!-- @include('frontend.include.navbar') -->
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-<div class="container-fluid mx-lg-5">
-        <img src="{{ asset('assets/frontend/css/images/RawalaText.png') }}" alt="Logo" width="100" class="d-inline-block align-text-top" href="#">
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a href="{{ url('/') }}" class="nav-link text-white {{ request()->is('/') ? ' active-link' : '' }}">
-                  <span>Home</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-white" href="/infoBerita">Berita</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-white" href="/lwisata">Wisata</a>
-            </li>
-            <li class="nav-item dropdown" {{ session('isLogin')?"":"style=display:none" }}>
-            <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Welcome, {{ session('name') }}
-            </a>
-            @if ( session('role')== "user" ? "" : "style=display:none" )
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="/dashboard">Dashbord</a></li>
-              <li><a class="dropdown-item" href="/logout">Logout</a></li>
-            </ul>
-            @else
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li>
-                <?php
-                  $cart_utama = \App\Models\Cart::where('user_id', session('id'))->where('status',0)->first();
-                  if(!empty($cart_utama))
-                  {
-                    $notif = \App\Models\Transaksi::where('cart_id', $cart_utama->id)->count();
-                  }
-                ?>
-                <a class="dropdown-item" href="{{ url('check-out') }}">
-                    Keranjang
-                    @if(!empty($notif))
-                      <span class="badge badge-danger">{{ $notif }}</span>
-                    @endif
-                </a>
-              </li>
-              <li><a class="dropdown-item" href="/profile">Profile</a></li>
-              <li><a class="dropdown-item" href="/history">Riwayat</a></li>
-              <li><a class="dropdown-item" href="/logout">Logout</a></li>
-            </ul>
-            @endif
-          </li>
-      </ul>
-    </div>
+@include('frontend.include.navbar')
+<!-- Page Header Start -->
+<div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+  <div class="container text-center py-5">
+      <h1 class="display-3 text-white mb-4 animated slideInDown">Search Wisata</h1>
+      <nav aria-label="breadcrumb animated slideInDown">
+          <ol class="breadcrumb justify-content-center mb-0">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Search Wisata</li>
+          </ol>
+      </nav>
   </div>
-</nav>
+</div>
+<!-- Page Header End -->
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10 mb-2 mt-5"> 

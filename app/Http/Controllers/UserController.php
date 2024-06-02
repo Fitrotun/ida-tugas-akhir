@@ -8,14 +8,14 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-    public function __construct(){
-        return $this->middleware('admin') && $this->middleware('login');
-    }
+    // public function __construct(){
+    //     return $this->middleware('admin') && $this->middleware('login');
+    // }
     
     // DASHBOARD
     public function index(){
         return view('backend.pages.admin.user',[
-             'item' => DB::table('users')->paginate(10),
+             'item' => DB::table('users')->paginate(5),
              'title' => 'User'
         ]);  
      }

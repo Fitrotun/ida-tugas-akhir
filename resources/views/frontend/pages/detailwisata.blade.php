@@ -1,16 +1,26 @@
 @extends('frontend.include.template')
-@section('title','Detail Berita')
+@section('title','DetailWisata')
 @section('content')
 
+@include('frontend.include.navbar')
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> 
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<!-- Make sure you put this AFTER Leaflet's CSS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+{{-- Swiper --}}
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>    
 <style>
 	#map { height: 180px; }
 </style>
-
-@include('frontend.include.navbar')
-
 <section class="detailwisata">
-    <div class="container" style="margin-top: 105px;margin-bottom: 20px;">
-        <div class="card border-0" style="background-color: #cdcdcd;">
+    <div class="container" style="margin-top: 90px;margin-bottom: 20px;">
+        <h2> <center>Detail Wisata</center></h2>
+        <br>
+        <div class="card border-0" style="background-color: #ffffff;">
+            
             <div class="card-body p-lg-4">
                 <h2 class="card-title fw-bold mb-2">{{ $wisata->name }}</h2>
                 <div class="rating">
@@ -37,114 +47,39 @@
                         </div>
                     </div>
                 </div>
-                <p class="card-text my-3">{{ $wisata->description }}</p>
-                <h3 class="text-end fw-bold" style="margin-right:55px;">Rp. {{ number_format($wisata->price) }}</h3>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <a href="/detail/{{ $wisata->id }}" class="button button-wisata">Booking Ticket</a>
-                </div>
             </div>
           </div>
+          <br><br>
+          <table class="table">
+            
+            <tbody>
+                <tr>
+                    <td>Deskripsi</td>
+                    <td>{{ $wisata->description }}</td>
+                </tr>
+                <tr>
+                    <td>Harga Tiket</td>
+                    <td>Rp. {{ number_format($wisata->price) }}/Orang</td>
+                </tr>
+              <tr>
+                <td>Jam Buka</td>
+                <td>{{ $wisata->jam_buka }}</td>
+              </tr>
+              <tr>
+                <td>Jarak</td>
+                <td>{{ $wisata->jarak }}</td>
+              </tr>
+              <tr>
+                <td>Fasilitas</td>
+                <td>{{ $wisata->fasilitas }}</td>
+              </tr>
+              <tr>
+                <td>Transportasi</td>
+                <td>{{ $wisata->transportasi }}</td>
+              </tr>
+            </tbody>
+          </table>
     </div>
-    <div class="container" style="margin-bottom: 20px;">
-        <div class="card border-0" style="background-color: #cdcdcd">
-            <div class="card-body p-lg-4">
-                <h2 class="card-title fw-bold mb-2">Info Lokasi</h2>
-                <div id="map" style="height: 400px;"></div>
-                
-                {{-- <div id="map">
-                    <iframe width="800" height="300" frameborder="0" src="https://www.bing.com/maps/embed?h=300&w=800&cp=-7.355971881063553~109.90476125968826&lvl=14.164355034644323&typ=d&sty=r&src=SHELL&FORM=MBEDV8" scrolling="no">
-                    </iframe>
-                    <p>{{ $wisata->location }}</p>
-                    <div style="white-space: nowrap; text-align: center; width: 800px; padding: 6px 0;">
-                       <a id="largeMapLink" target="_blank" href="https://www.bing.com/maps?cp=-7.355971881063553~109.90476125968826&amp;sty=r&amp;lvl=14.164355034644323&amp;FORM=MBEDLD">View Larger Map</a> &nbsp; | &nbsp;
-                       <a id="dirMapLink" target="_blank" href="https://www.bing.com/maps/directions?cp=-7.355971881063553~109.90476125968826&amp;sty=r&amp;lvl=14.164355034644323&amp;rtp=~pos.-7.355971881063553_109.90476125968826____&amp;FORM=MBEDLD">Get Directions</a>
-                   </div>
-               </div> --}}
-                {{-- 
-                <img width="1000" height="300" src="https://api.mapbox.com/styles/v1/mapbox/light-v9/static/pin-s+f00(30.055867,51.408365)/30.0558434,51.4082343,15,0,0/640x480?access_token=pk.eyJ1Ijoibmlja2ZpdHoiLCJhIjoiY2p3d2g3N2F5MDZ4azQwcG12dWticDB0diJ9.qnQV5QgYN_eDwg4uUdbO6Q" alt="Pripyat Amusement Park" class="static-map">
-                
-                {{-- <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <a href="" class="button button-wisata"> Lihat Detail Peta</a>
-                </div> --}}
-            </div>
-        </div>
-    </div>
-    <div class="container" style="margin-bottom: 20px;">
-        <div class="card border-0" style="background-color: #cdcdcd">
-            <div class="card-body p-lg-4">
-                <h2 class="card-title fw-bold mb-2">Tambah Ulasan</h2>
-                <div class="card border-0" style="background-color: #ffffff">
-                    <div class="card-body p-lg-4">
-                        <form action="/komen/{{ $wisata->id }}" method="post" enctype="multipart/form-data">
-                            @csrf
-                            <div class="user">
-                                <div class="row row-cols-auto mb-2">
-                                    <div class="col-md-11">
-                                        <div class="form-group row">
-                                        <label class="col fw-bold">Komentar</label>
-                                        <div class="card-text sm-14 p-2 align-baseline">
-                                            <input class="form-control" name="description" type="text"/>
-                                            @error('description')
-                                                <code>
-                                                    {{ $message }}
-                                                </code>
-                                            @enderror
-                                        </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <input type="submit" class="btn btn-primary offset-md-10" value="Submit">
-                        </form>
-                    </div>
-                    
-                    
-                </div>
-                @if ($komen)
-                    <div class="card-body p-lg-4">
-                        <div class="user">
-                            {{-- {{ dd($komen) }} --}}
-                            @foreach ($komen as $komen)
-                                
-                                <div class="row row-cols-auto mb-2">
-                                    <div class="col-sm-1">
-                                        <img src="https://www.its.ac.id/aktuaria/wp-content/uploads/sites/100/2018/03/user.png" alt="fotoprofil" width="60" height="60" class="d-inline-block align-text-top">
-                                    </div>
-                                    <div class="col p-0 align-baseline mr-3">
-                                        <h6 class="wisata fw-bold" style="margin-top:10px">{{ $komen->user->name }}</h6>
-                                        <h6 class="wisata" style="margin-top:3px">{{ $komen->description }}</h6>
-                                    </div>
-                                </div>
-                            @endforeach
-                            
-                        </div>
-                        {{-- <p class="card-text"><small class="text">Rate</small></p>
-                        {{-- <div class="row justify-content-start">
-                            <div class="col-3 px-0 ml-5">
-                                <img src={{ asset('assets/frontend/css/images/telagawarna.png') }} class="img-fluid rounded">
-                            </div>
-                        </div> --}}
-                    </div> 
-                    @else
-                    
-                    @endif
-            </div>
-        </div>
-    </div>
-</section>
-
+    <br><br>
+    
 @endsection
-@push('script')
-<script>
-    var map = L.map('map').setView([-7.35805671239407, 109.91492220542723], 13);
-
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    var wisataData = <?= $maps; ?>  ;
-    L.marker([wisataData.latitude, wisataData.longitude]).addTo(map)
-        .bindPopup(wisataData.name)
-        .openPopup();
-</script>
-@endpush

@@ -16,6 +16,10 @@ class Wisata extends Model
         'description',
         'price',
         'rating',
+        'jam_buka',
+        'jarak',
+        'fasilitas',
+        'transportasi',
         'latitude',
         'longitude',
         'id_category'
@@ -33,8 +37,4 @@ class Wisata extends Model
         return $this->belongsTo(Category::class,'id_category');
     }
 
-    public function cart()
-    {
-        return $this->hasOne(Cart::class);
-    }
 }

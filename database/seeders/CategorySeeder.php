@@ -21,8 +21,10 @@ class CategorySeeder extends Seeder
                 'name' => 'Wisata Alam'
             ],
             [
-                
-                'name' => 'Wisata Air'
+                'name' => 'Wisata Buatan'
+            ],
+            [
+                'name' => 'Wisata Religi'
             ]
         ];
         foreach($data as $d){

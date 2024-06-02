@@ -21,8 +21,11 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable(true);
             $table->string('rating');
+            $table->string('jam_buka');
+            $table->string('jarak');
+            $table->string('fasilitas');
+            $table->string('transportasi');
             $table->unsignedInteger('price')->default(0);
-            $table->string('location');
             $table->timestamps();
         });
     }

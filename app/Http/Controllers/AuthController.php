@@ -35,9 +35,6 @@ class AuthController extends Controller
             case "admin" :
                 $user = DB::table('admins')->where('email', $request->email)->first();
                 break;
-            case 'pengelola':
-                $user = DB::table('pengelolas')->where('email', $request->email)->first();
-                break;
             case "user" :
                 $user = DB::table('users')->where('email', $request->email)->first();
                 break;
@@ -81,20 +78,6 @@ class AuthController extends Controller
     public function rstore(Request $request){
         // dd($request->all());
         switch($request->role){
-            case 'pengelola':
-                $validatedData = $request->validate([
-                    'name' => 'required',
-                    'email' => 'required|email',
-                    'password' => 'required',
-                    'jenisKelamin' => 'required',
-                    'alamat' => 'required|min:5',
-                    'noHp' => 'required',
-                ]);
-                
-                $validatedData['password'] = bcrypt( $validatedData['password']);
-        
-                Pengelola::create($validatedData);
-                break;
             case "user" :
                 $validatedData = $request->validate([
                     'name' => 'required',

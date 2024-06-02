@@ -20,9 +20,9 @@ class WisataController extends Controller
     // DASHBOARD
     public function index(){
         $data ['title'] = 'Wisata';
-        $data['wisatas'] = Wisata::with('category')->get();
+        $data['wisatas'] = Wisata::with('category')->paginate(5);
 
-        return view('backend.pages.pengelola.wisata', $data);
+        return view('backend.pages.admin.wisata', $data);
 
      }
  
@@ -38,7 +38,7 @@ class WisataController extends Controller
         
         $data['category'] = Category::all();
 
-        return view('backend.pages.pengelola.wisata_add', $data);
+        return view('backend.pages.admin.wisata_add', $data);
     }
 
     public function searchWisata(Request $request)
@@ -67,9 +67,11 @@ class WisataController extends Controller
             'image'=> 'required|image|mimes:png,jpg|max:2040',
             'description' => 'required', 
             'rating' => 'required', 
-            'price' => 'required', 
-            'latitude' => 'required', 
-            'longitude' => 'required', 
+            'price' => 'required',
+            'jam_buka' => 'required', 
+            'jarak' => 'required',
+            'fasilitas' => 'required',
+            'transportasi' => 'required', 
             'id_category' => 'required' 
         ]);
 
@@ -88,12 +90,14 @@ class WisataController extends Controller
         $wisatas->description= $request->description;
         $wisatas->rating= $request->rating;
         $wisatas->price = $request->price;
-        $wisatas->latitude = $request->latitude;
-        $wisatas->longitude = $request->longitude;
+        $wisatas->jam_buka = $request->jam_buka;
+        $wisatas->jarak = $request->jarak;
+        $wisatas->fasilitas = $request->fasilitas;
+        $wisatas->transportasi = $request->transportasi;
         $wisatas->id_category = $request->id_category;
         $wisatas->save();
         
-        return to_route('wisata.index');
+        return to_route('wisata.index')->with(['toast_success' => 'Data Berhasil Tersimpan']);
         
         
     }
@@ -122,7 +126,7 @@ class WisataController extends Controller
         $data['category'] = Category::all();
         $data['wisatas'] = Wisata::find($id);
 
-        return view('backend.pages.pengelola.wisata_edit', $data);
+        return view('backend.pages.admin.wisata_edit', $data);
 
     }
 
@@ -140,8 +144,10 @@ class WisataController extends Controller
             'description' => 'required',
             'price' => 'required',
             'rating' => 'required',
-            'latitude' => 'required', 
-            'longitude' => 'required', 
+            'jam_buka' => 'required', 
+            'jarak' => 'required',
+            'fasilitas' => 'required',
+            'transportasi' => 'required',
             'id_category' => 'required'
         ]);
 
@@ -163,14 +169,16 @@ class WisataController extends Controller
         $wisatas->description= $request->description;
         $wisatas->rating= $request->rating;
         $wisatas->price = $request->price;
-        $wisatas->latitude = $request->latitude;
-        $wisatas->longitude = $request->longitude;
+        $wisatas->jam_buka = $request->jam_buka;
+        $wisatas->jarak = $request->jarak;
+        $wisatas->fasilitas = $request->fasilitas;
+        $wisatas->transportasi = $request->transportasi;
         $wisatas->id_category = $request->id_category;
         $wisatas->save();
         
         
 
-        return redirect('/wisata');
+        return redirect('/wisata')->with(['toast_success' => 'Data Berhasil Diupdate']);
     }
 
     /**
@@ -182,6 +190,6 @@ class WisataController extends Controller
     public function destroy($id)
     {
         Wisata::destroy($id);
-        return redirect("/wisata")->with(['success' => 'Data Berhasil Dihapus!']);
+        return redirect("/wisata")->with(['success' => 'Data Berhasil Terhapus']);
     }
 }
