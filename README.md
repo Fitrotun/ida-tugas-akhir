@@ -1,9 +1,15 @@
 # APLIKASI E-TICKETING PARIWISATA DI WONOSOBO BERBASIS WEBSITE
+<<<<<<< HEAD
 
 ## Disusun Oleh
 
 - ``` Ida Fitrotun Khasanah ```
 
+=======
+
+## Disusun Oleh
+- ``` Ida Fitrotun Khasanah ```
+>>>>>>> 2f1e699160d54e831882f923d62aa91a1f4d43a0
 
 ## Tools
 
@@ -17,7 +23,7 @@
 
 1. Clone Repo
 ``` 
-git clone https://github.com/ayusekar94/gits-msib4-uts
+git clone https://github.com/Fitrotun/ida-tugas-akhir.git
 ```
 
 2. Copy env dari env.example
