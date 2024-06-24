@@ -12,8 +12,13 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\KriteriaController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\ParameterController;
 use App\Models\Kriteria;
-
+use App\Http\Controllers\DataAnalisaController;
+use App\Http\Controllers\DataAlternatifController;
+use App\Http\Controllers\PerhitunganController;
+use App\Http\Controllers\RecomendationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,6 +35,8 @@ Route::get('/infoBerita', [HomeController::class, 'bindex']);
 Route::get('/detailberita/{id}', [HomeController::class, 'berita']);
 Route::get('/lwisata', [HomeController::class, 'wisata']);
 Route::get('/detailwisata/{id}', [HomeController::class, 'dwisata']);
+Route::get('/wisata/{id}', [RecomendationController::class, 'detailWisata'])->name('wisata.detail');
+
 
 // Login & Register
 Route::get('/register', [AuthController::class, 'rindex']);
@@ -68,3 +75,29 @@ Route::post('/kriteria', [KriteriaController::class, 'store'])->name('kriteria')
 Route::put('/admin/kriteria/{id}',[KriteriaController::class, 'update'])->name('kriteria');
 Route::get('/kriteria', [KriteriaController::class,'index'])->name('kriteria.index');
 Route::post('/kriteria', [KriteriaController::class,'store'])->name('kriteria.store');
+
+//
+// Route::middleware(['auth:web'])->group(function(){
+    // Route::controller(PageController::class)->group(function(){
+    //     Route::get('dashboard','dashboard')->name('page.home');
+    // });
+    Route::resource('kriteria', KriteriaController::class);
+    Route::resource('parameter',ParameterController::class);
+    Route::resource('dataanalisa',DataAnalisaController::class);
+    Route::resource('dataalternatif',DataAlternatifController::class);
+
+    //Admin rekomendasi
+    Route::get('/rekomendasi', [RecomendationController::class, 'index'])->name('rekomendasi.index');
+    Route::post('/rekomendasi', [RecomendationController::class, 'show'])->name('rekomendasi.show');
+
+    //User rekomendasi
+    Route::get('/rekomendasiuser', [RecomendationController::class, 'userindex'])->name('rekomendasi.userindex');
+    Route::post('/rekomendasiuser', [RecomendationController::class, 'usershow'])->name('rekomendasi.usershow');
+
+    Route::controller(PerhitunganController::class)->prefix('perhitungan')->group(function(){
+        Route::get('create','create')->name('perhitungan.create');
+        Route::post('store','store')->name('perhitungan.store');
+        Route::get('hasil','index')->name('perhitungan.index');
+        Route::get('matriks','matriks')->name('perhitungan.matriks');
+    });
+// });

@@ -4,29 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class Kriteria extends Model
 {
     use HasFactory;
-    protected $table = "kriterias";
+
+    protected $table = 'kriteria';
+
     protected $fillable = [
-        'no',
-        'kriteria',
-        'code',
-        // 'rating',
-        // 'jam_buka',
-        // 'jarak',
-        // 'fasilitas',
-        // 'transportasi',
-        
+        'nama_kriteria','bobot'
     ];
 
-   
-
-    // public function category()
-    // {
-    //     return $this->belongsTo(Category::class,'id_category');
-    // }
+    public function parameter(){
+        return $this->hasMany(Parameter::class, 'kriteria_id','id');
+    }
 
 }

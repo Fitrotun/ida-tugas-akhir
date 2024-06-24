@@ -22,7 +22,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="{{ asset('assets/html2pdf/dist/html2pdf.bundle.min.js')}}"></script>
 
-        
+
         <script>
         $(document).ready(function(){
 
@@ -44,3 +44,85 @@
             });
         });
         </script>
+        <script>
+            CKEDITOR.replace('editor');
+
+            function previewImage() {
+            var input = document.getElementById('gambar');
+            var preview = document.getElementById('gambar-preview');
+
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                    };
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        </script>
+        <script>
+            var elements = CKEDITOR.document.find( '.replies-field' ),
+                    i = 0,
+                    element;
+                    while (( element = elements.getItem( i++ ) )) {
+                    CKEDITOR.replace( element);
+                }
+           </script>
+        {{-- <script>
+            CKEDITOR.replace('profile');
+
+            const originalContent = CKEDITOR.instances.profile.getData();
+            const originalNama = document.getElementById('nama').value;
+            const originalFotoSrc = document.getElementById('current-foto').src;
+
+            document.getElementById('editButton').addEventListener('click', function() {
+                document.getElementById('profile').disabled = false;
+                document.getElementById('nama').disabled = false;
+                document.getElementById('foto').disabled = false;
+                CKEDITOR.instances.profile.setReadOnly(false);
+                document.getElementById('updateButton').classList.remove('hidden');
+                document.getElementById('cancelButton').classList.remove('hidden');
+                this.classList.add('hidden');
+            });
+
+            document.getElementById('cancelButton').addEventListener('click', function() {
+                document.getElementById('profile').disabled = true;
+                document.getElementById('nama').disabled = true;
+                document.getElementById('foto').disabled = true;
+                CKEDITOR.instances.profile.setReadOnly(true);
+                CKEDITOR.instances.profile.setData(originalContent);
+                document.getElementById('nama').value = originalNama;
+                document.getElementById('foto').value = '';
+                document.getElementById('foto-preview').style.display = 'none';
+                document.getElementById('current-foto').src = originalFotoSrc;
+                document.getElementById('updateButton').classList.add('hidden');
+                document.getElementById('editButton').classList.remove('hidden');
+                this.classList.add('hidden');
+                Swal.fire({
+                    title: 'Operasi dibatalkan',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            });
+
+            function previewImage() {
+                var input = document.getElementById('foto');
+                var preview = document.getElementById('foto-preview');
+
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                    };
+
+                    reader.readAsDataURL(input.files[0]);
+                } else {
+                    preview.style.display = 'none';
+                }
+            }
+        </script> --}}
