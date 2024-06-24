@@ -16,4 +16,8 @@ class Category extends Model
     {
         return $this->hasMany(Wisata::class);
     }
+    public function dataAnalisa()
+    {
+        return $this->hasMany(DataAnalisa::class, 'kategori_id');
+    }
 }

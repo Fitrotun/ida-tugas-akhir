@@ -20,6 +20,8 @@
   <!-- endinject -->
   <link rel="shortcut icon" href="{{ asset('asset/img/logoo.png')}}" />
   {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> --}}
+
+  <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
   <style>
     html2canvas {
      width: 100px !important;

@@ -48,7 +48,7 @@
             <a class="nav-link " href="/lwisata">Wisata</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link " href="/rekomendasi">Rekomendasi</a>
+            <a class="nav-link " href="/rekomendasiuser">Rekomendasi</a>
           </li>
           <li class="nav-item" {{ session('isLogin')?"style=display:none":"" }}>
             <a class="nav-link " href="/login">Login</a>
@@ -73,7 +73,7 @@
           </ul>
           @endif
         </li>
-      </ul> 
+      </ul>
       <a  class="btn btn-success py-4 px-lg-4 rounded-0 d-none d-lg-block"></a>
       </div>
     </div>

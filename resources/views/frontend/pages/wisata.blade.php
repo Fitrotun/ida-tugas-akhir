@@ -22,16 +22,23 @@
             <form action="{{ url('search') }}" method="GET" class="d-flex" style="max-width: 300px;">
                 <input class="form-control me-2" type="search" name="search" id="searchbar" value="{{ Request::get('search') }}" placeholder="Cari..." aria-label="Search">
                 <button class="btn btn-outline-primary"  type="submit"><i class="fa fa-search"></i></button>
-            </form> 
+            </form>
         </div>
         @foreach ($wisata as $a)
             <div class="col-md-3 mt-2">
                 <div class="card">
-                    <img width="200px" height="200px" src="{{ asset($a->image) }}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                    <h5 class="card-title">{{ $a->name }}</h5>
+                    @if($a->foto && $a->foto !== '-')
+                    @php
+                        $imagePath = Storage::url('upload/wisata/'.$a->foto);
+                    @endphp
+                        <img width="200px" height="200px" src="{{ $imagePath }}" class="card-img-top" alt="Foto Wisata">
+                    @else
+                        <span>No Image</span>
+                    @endif
+                <div class="card-body">
+                    <h5 class="card-title">{{ $a->nama_wisata }}</h5>
                     <p class="card-text">
-                        {{ mb_strimwidth($a->description, 0, 40, "..."); }}<br>
+                        {{ mb_strimwidth(strip_tags($a->deskripsi), 0, 40, "...") }}
                     </p>
                     <a href="/detailwisata/{{ $a->id }}" class="item"><i class="item-primary me-0"></i>Selengkapnya</a>
                     {{-- <a href="/detail/{{ $a->id }}" class="btn btn-primary">Pesan Tiket</a> --}}
@@ -39,7 +46,7 @@
                 </div>
             </div>
         @endforeach
-    </div>   
+    </div>
 </div>
 <br>
 <div class="d-flex justify-content-center">
