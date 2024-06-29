@@ -6,11 +6,14 @@ use App\Models\Rekomendasi;
 use App\Models\DataAlternatif;
 use App\Models\Kriteria;
 use App\Models\Parameter;
+use App\Models\Category;
 use App\Http\Controllers\Controller;
+use App\Models\Category as ModelsCategory;
 use Illuminate\Support\Facades\Redirect;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+
 class RecomendationController extends Controller
 {
     /**
@@ -36,6 +39,7 @@ class RecomendationController extends Controller
         $data['fasilitas'] = Parameter::where('kriteria_id','4')->get();
         $data['rating'] = Parameter::where('kriteria_id','5')->get();
         $data['transportasi'] = Parameter::where('kriteria_id','6')->get();
+        $data['category'] = Category :: get();
         return view('frontend.pages.rekomendasi',$data);
     }
     /**
@@ -68,67 +72,6 @@ class RecomendationController extends Controller
 
      public function show(Request $request)
      {
-         $weights = [
-             'C1' => $request->jarak,
-             'C2' => $request->jambuka,
-             'C3' => $request->hargatiket,
-             'C4' => $request->fasilitas,
-             'C5' => $request->rating,
-             'C6' => $request->transportasi,
-         ];
-
-         $criteria = Kriteria::whereIn('id', [1, 2, 3, 4, 5, 6])->get();
-         $criteriaMapping = [];
-         foreach ($criteria as $criterion) {
-             $criteriaMapping[$criterion->id] = $criterion;
-         }
-
-         $normalizationFactors = [];
-         foreach ($criteriaMapping as $criterion) {
-             if ($criterion->atribut == "benefit") {
-                 $normalizationFactors['C' . $criterion->id] = DataAlternatif::min('C' . $criterion->id);
-             } else {
-                 $normalizationFactors['C' . $criterion->id] = DataAlternatif::max('C' . $criterion->id);
-             }
-         }
-
-         $dataAlternatif = DataAlternatif::get();
-
-         $normalizedData = $dataAlternatif->map(function($item) use($normalizationFactors, $criteriaMapping) {
-             foreach ($normalizationFactors as $key => $value) {
-                 $criterionId = str_replace('C', '', $key);
-                 if ($criteriaMapping[$criterionId]->atribut == "benefit") {
-                     $item->$key = $item->$key / $value;
-                 } else {
-                     $item->$key = $value / $item->$key;
-                 }
-             }
-             return $item;
-         });
-
-         $hasil = $normalizedData->map(function($item) use($weights) {
-             $item->total = 0;
-             foreach ($weights as $key => $weight) {
-                 $item->total += $item->$key * $weight;
-             }
-             return $item;
-         });
-
-         $rank = $hasil->sortByDesc('total')->take(5); // Ambil 5 data dengan nilai tertinggi
-
-         return view('backend.pages.admin.rekomendasi.show', compact('rank'));
-     }
-
-     public function usershow(Request $request)
-     {
-         // Mengambil data parameter berdasarkan kriteria_id
-         $data['jarak'] = Parameter::where('kriteria_id', '1')->get();
-         $data['jambuka'] = Parameter::where('kriteria_id', '2')->get();
-         $data['hargatiket'] = Parameter::where('kriteria_id', '3')->get();
-         $data['fasilitas'] = Parameter::where('kriteria_id', '4')->get();
-         $data['rating'] = Parameter::where('kriteria_id', '5')->get();
-         $data['transportasi'] = Parameter::where('kriteria_id', '6')->get();
-
          // Menentukan bobot untuk setiap kriteria
          $weights = [
              'C1' => $request->jarak,
@@ -181,8 +124,96 @@ class RecomendationController extends Controller
              return $item;
          });
 
-         // Mengurutkan data berdasarkan total skor dan mengambil 5 teratas
-         $rank = $hasil->sortByDesc('total')->take(5);
+         // Menghitung rata-rata total skor
+         $averageTotal = $hasil->avg('total');
+
+         // Menghitung selisih dari rata-rata total skor
+         $hasil = $hasil->map(function($item) use($averageTotal) {
+             $item->difference = abs($item->total - $averageTotal);
+             return $item;
+         });
+
+         // Mengurutkan data berdasarkan selisih terkecil dan mengambil semua data
+         $rank = $hasil->sortBy('difference');
+
+         return view('backend.pages.admin.rekomendasi.show', compact('rank'));
+     }
+
+     public function usershow(Request $request)
+     {
+         // Mengambil data parameter berdasarkan kriteria_id
+         $kriteriaIds = [1, 2, 3, 4, 5, 6];
+         $data = [
+             'jarak' => Parameter::where('kriteria_id', 1)->get(),
+             'jambuka' => Parameter::where('kriteria_id', 2)->get(),
+             'hargatiket' => Parameter::where('kriteria_id', 3)->get(),
+             'fasilitas' => Parameter::where('kriteria_id', 4)->get(),
+             'rating' => Parameter::where('kriteria_id', 5)->get(),
+             'transportasi' => Parameter::where('kriteria_id', 6)->get(),
+         ];
+
+         // Menentukan bobot untuk setiap kriteria
+         $weights = [
+             'C1' => $request->jarak,
+             'C2' => $request->jambuka,
+             'C3' => $request->hargatiket,
+             'C4' => $request->fasilitas,
+             'C5' => $request->rating,
+             'C6' => $request->transportasi,
+         ];
+
+         // Mengambil data kriteria dan membuat mapping
+         $criteria = Kriteria::whereIn('id', $kriteriaIds)->get()->keyBy('id');
+
+         // Menentukan faktor normalisasi untuk setiap kriteria
+         $normalizationFactors = [];
+         foreach ($criteria as $criterion) {
+             $column = 'C' . $criterion->id;
+             if ($criterion->atribut == "benefit") {
+                 $normalizationFactors[$column] = DataAlternatif::min($column);
+             } else {
+                 $normalizationFactors[$column] = DataAlternatif::max($column);
+             }
+         }
+
+         // Mengambil data alternatif berdasarkan kategori yang dipilih
+         $category = $request->category;
+        //  $dataAlternatif = DataAlternatif::where('kategori_id', $category)->get();
+         $dataAlternatif = DataAlternatif::get();
+
+         // Melakukan normalisasi data
+         $normalizedData = $dataAlternatif->map(function($item) use($normalizationFactors, $criteria) {
+             foreach ($normalizationFactors as $key => $value) {
+                 $criterionId = str_replace('C', '', $key);
+                 if ($criteria[$criterionId]->atribut == "benefit") {
+                     $item->$key = $item->$key / $value;
+                 } else {
+                     $item->$key = $value / $item->$key;
+                 }
+             }
+             return $item;
+         });
+
+         // Menghitung total skor untuk setiap alternatif
+         $hasil = $normalizedData->map(function($item) use($weights) {
+             $item->total = 0;
+             foreach ($weights as $key => $weight) {
+                 $item->total += $item->$key * $weight;
+             }
+             return $item;
+         });
+
+         // Menghitung rata-rata total skor
+         $averageTotal = $hasil->avg('total');
+
+         // Menghitung selisih dari rata-rata total skor
+         $hasil = $hasil->map(function($item) use($averageTotal) {
+             $item->difference = abs($item->total - $averageTotal);
+             return $item;
+         });
+
+         // Mengurutkan data berdasarkan selisih terkecil dan mengambil semua data
+         $rank = $hasil->sortBy('difference')->take(7);
 
          // Menyimpan hasil ke session dan mengembalikan ke halaman rekomendasi
          return redirect()->route('rekomendasi.userindex')->with('rank', $rank);

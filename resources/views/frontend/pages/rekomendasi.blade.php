@@ -95,6 +95,18 @@
                             <div class="invalid-feedback">Pilih transportasi</div>
                         @enderror
                     </div>
+                    {{-- <div class="mb-3">
+                        <label for="category" class="form-label">Kategori Wisata</label>
+                        <select class="form-select @error('category') is-invalid @enderror" name="category">
+                            <option value="">-pilih kategori-</option>
+                            @foreach ($category as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('category')
+                            <div class="invalid-feedback">Pilih salah satu kategori</div>
+                        @enderror
+                    </div> --}}
                     <div class="mt-4 col-12">
                         <button type="submit" class="btn btn-primary me-2">Submit</button>
                     </div>
@@ -164,9 +176,9 @@
                                 <!-- Content will be loaded here using JavaScript -->
                                 <div id="detailContent"></div>
                             </div>
-                            {{-- <div class="modal-footer">
+                            <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            </div> --}}
+                            </div>
                         </div>
                     </div>
                 </div>
